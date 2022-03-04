@@ -10,6 +10,6 @@ server.use(json());
 server.use(cors());
 server.use(router);
 
-server.listen(4000, () => {
-    console.log('Running server in http://localhost:4000');
+server.listen(process.env.PORT, () => {
+    console.log("Server running on port " + process.env.PORT);
 });
