@@ -11,7 +11,8 @@ export async function postCategories(req, res) {
         res.sendStatus(201);
 
     } catch (error) {
-        res.send(error).status(500);
+        console.log(error);
+        res.sendStatus(500);
     };
 };
 
@@ -23,6 +24,7 @@ export async function getCategories(req, res) {
         res.send(categories.rows).status(200);
 
     } catch (error) {
-        res.send(error).status(500);
+        console.log(error);
+        res.sendStatus(500);
     };
 };
