@@ -17,9 +17,17 @@ export async function postCategories(req, res) {
 };
 
 export async function getCategories(req, res) {
+
+    const { offset, limit } = req.query
+    console.log(limit)
+
     try {
         
-        const categories = await connection.query('select * from categories');
+        const categories = await connection.query(`
+        select * from categories
+        ${offset ? `offset ${parseInt(offset)}` : ``}
+        ${limit ? `limit ${parseInt(limit)}` : ``}
+        `);
 
         res.send(categories.rows).status(200);
 

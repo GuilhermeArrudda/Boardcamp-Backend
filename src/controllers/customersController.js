@@ -21,13 +21,16 @@ export async function createCustomers(req, res) {
 
 export async function getCustomers(req, res) {
     const queryCPF = req.query.cpf ? req.query.cpf + "%" : "%";
+    const { offset, limit } = req.query;
 
     try {
         
         const customers = await connection.query(`
             select customers.* from customers
             where customers.cpf like $1
-            order by customers.id asc`, [queryCPF]);
+            order by customers.id asc
+            ${offset ? `offset ${parseInt(offset)}` : ``}
+            ${limit ? `limit ${parseInt(limit)}` : ``}`, [queryCPF]);
 
         res.send(customers.rows.map(customer => {
             return {

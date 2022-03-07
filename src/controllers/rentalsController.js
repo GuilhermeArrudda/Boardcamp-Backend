@@ -36,6 +36,7 @@ export async function createRentals(req, res) {
 export async function getRentals(req, res) {
     const queryCustomer = req.query.customerId;
     const queryGame = req.query.gameId;
+    const { offset, limit } = req.query;
     const queryArray = [];
     if(queryCustomer){
         queryArray.push(queryCustomer);
@@ -60,7 +61,9 @@ export async function getRentals(req, res) {
     ${queryCustomer ? "customers.id = $1" : ""}
     ${queryGame && !queryCustomer ? "games.id = $1" : ""}
     ${queryCustomer && queryGame ? "and games.id = $2" : ""}
-    order by rentals.id desc`;
+    order by rentals.id desc
+    ${offset ? `offset ${parseInt(offset)}` : ``}
+    ${limit ? `limit ${parseInt(limit)}` : ``}`;
 
     try {
         

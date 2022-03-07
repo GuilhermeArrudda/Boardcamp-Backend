@@ -20,13 +20,16 @@ export async function createGames(req, res) {
 
 export async function getGames(req, res) {
     const queryName = req.query.name ? req.query.name + "%" : "%";
+    const { offset, limit } = req.query;
 
     try {
         
         const games = await connection.query(`
             select games.*, categories.name as "categoryName" from games
             join categories on games."categoryId" = categories.id
-            where games.name like $1`, [queryName]);
+            where games.name like $1
+            ${offset ? `offset ${parseInt(offset)}` : ``}
+            ${limit ? `limit ${parseInt(limit)}` : ``}`, [queryName]);
         
         res.send(games.rows);
 
